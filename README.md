@@ -3,7 +3,7 @@ ELK Documentation
 
 Install Elasticsearch logstatsh and kibana
 
-add lines the following lines to elasticsearch.ylm in config folder of elasticsearch
+add lines the following lines to elasticsearch.yml in config folder of elasticsearch
 
 #############################################################################################################################################################################
 action.auto_create_index: .monitoring*,.watches,.triggered_watches,.watcher-history*,.ml*  // add this line in the begining before cluster
