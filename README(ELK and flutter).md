@@ -161,7 +161,7 @@ output{
     }
 }
  
-NOTE: This was the .conf file planned to pass to flutter app to fetch data from the ELK server but since the output we get was not accurate(contained syslog data in addition to the file content) the code uploaded will have a hosted REST API server link.
+NOTE: This was the .conf file planned to pass to flutter app to fetch data from the ELK server but since the output we get was not accurate(contained syslog data in addition to the file content) the code uploaded will have a hosted REST API server link for both get and post methods.
 
 NOTE:Although http get and post have been used in the project till now , websockets seem to be an excellent tool for two-way communication between ELK and flutter 
 
