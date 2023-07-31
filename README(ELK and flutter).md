@@ -1,14 +1,16 @@
-# ELK-
-ELK Documentation
+# ELK SETUP
+
 
 Install Elasticsearch logstatsh and kibana
 
 add lines the following lines to elasticsearch.yml in config folder of elasticsearch
 
-#############################################################################################################################################################################
+###########################################################################################################
+
 action.auto_create_index: .monitoring*,.watches,.triggered_watches,.watcher-history*,.ml*  // add this line in the begining before cluster
 
-//add the following lines in discovery section
+add the following lines in discovery section
+
 xpack.security.enabled: false
 
 xpack.security.http.ssl.enabled: false
@@ -17,7 +19,7 @@ xpack.security.http.ssl.enabled: false
 xpack.security.transport.ssl.enabled: false
 
 http.host: 0.0.0.0
-#############################################################################################################################################################################
+###########################################################################################################
 
 and save the file
 
@@ -30,7 +32,8 @@ and see if running
 then open browser and type: localhost:9200 and see if getting the following window
 
 <img width="614" alt="image" src="https://github.com/sethu-7/ELK-/assets/121884112/6f336b98-56be-4e8f-a3dd-ef67096c4259">
-#############################################################################################################################################################################
+###########################################################################################################
+
 the following would be present
 
 name	"LAPTOP-TBI3MA32"
@@ -48,7 +51,7 @@ minimum_wire_compatibility_version	"7.17.0"
 minimum_index_compatibility_version	"7.0.0"
 tagline	"You Know, for Search"
 
-#############################################################################################################################################################################
+###########################################################################################################
 
 
 
@@ -56,7 +59,8 @@ tagline	"You Know, for Search"
 then open kibana.yml file from cofig folder in kibana
 
 then uncomment or add the following lines as needed
-#############################################################################################################################################################################
+###########################################################################################################
+
 server.port: 5601
 
 server.host: "localhost"
@@ -66,7 +70,8 @@ elasticsearch.hosts: ["http://localhost:9200"]
 elasticsearch.username: "kibana_system"
 elasticsearch.password: "pass"
 
-#############################################################################################################################################################################
+############################################################################################################
+
 Then making sure the elasticsearch.bat is already running in a cmd.....open command prompt from bin folder of kibana in the same way as mentioned above and run the command 
   kibana.bat
   
@@ -75,9 +80,9 @@ Then open browser and type localhost:5200
 the elk server will start running
 
 
-Now create a file called learn.conf (u can add any name you want but it should be a .conf file) and add the following content into it
+Now create a file called learn.conf (you can add any name you want but it should be a .conf file) and add the following content into it
 
-#############################################################################################################################################################################
+#############################################################################################################
 
 input {
     stdin{
@@ -99,7 +104,7 @@ output {
     }
 }
 
-#############################################################################################################################################################################
+##############################################################################################################
 
 save this file in the config folder in logstash 
 
@@ -109,17 +114,56 @@ now open the bin folder of logstash in cmd as before and run the following comma
 
 now in the console in devtools section in elk add the command
 
-#############################################################################################################################################################################
+################################################################################################################
+
  PUT test.logstash
  
  GET test.logstash/_search
- ############################################################################################################################################################################
+ ###############################################################################################################
  
  now type anything on the cmd and run the GET command on elk and u will see taht the message got send
  
  NOTE:test.logstash is teh index name we gave in the learn.conf file and make sure this both shd be same
- 
 
+################################################################################################################
+
+ # Logstash .config file to work with flutter
+
+ input{
+    file{
+	
+        path => "/Users/sethu/Downloads/crops.json"
+        start_position => "beginning"
+	sincedb_path => "/Users/sethu/Downloads/sincedb.txt"
+    
+    	sincedb_clean_after => 0
+	codec => "json"
+        
+	
+    }
+}
+filter {
+      json {
+        source => "message"
+	id => "ABC"
+	
+      }
+    }
+output{
+    stdout {
+	
+    
+  }
+    
+    elasticsearch{
+        hosts => ["http://localhost:9200"]
+        index => "iewtest.logstash"
+    }
+}
+ 
+NOTE: This was the .conf file planned to pass to flutter app to fetch data from the ELK server but since the output we get was not accurate(contained syslog data in addition to the file content) the code uploaded will have a hosted REST API server link.
+
+NOTE:Although http get and post have been used in the project till now , websockets seem to be an excellent tool for two-way communication between ELK and flutter 
 
 
 
